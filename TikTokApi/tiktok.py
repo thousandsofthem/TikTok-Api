@@ -1548,14 +1548,18 @@ class TikTokApi:
         return urlencode(query)
 
     def __extract_tag_contents(self, html):
-        nonce_start = '<head nonce="'
-        nonce_end = '">'
-        nonce = html.split(nonce_start)[1].split(nonce_end)[0]
-        j_raw = html.split(
-            '<script id="__NEXT_DATA__" type="application/json" nonce="%s" crossorigin="anonymous">'
-            % nonce
-        )[1].split("</script>")[0]
-        return j_raw
+        data_start = '<script id="sigi-persisted-data">window[\'SIGI_STATE\']='
+        data_end = ';window'
+        try:
+            j_raw = html.split(data_start)[1].split(data_end)[0]
+            # print('SIGI_STATE not in data')
+            return j_raw
+        except Exception as e:
+            if not 'SIGI_STATE' in html:
+                print('SIGI_STATE' not in html)
+            if 'NEXT_DATA' in html:
+                print('NEXT_DATA in html')
+            raise e
 
     # Process the kwargs
     def __process_kwargs__(self, kwargs):
