@@ -1339,14 +1339,10 @@ class TikTokApi:
             raise TikTokCaptchaError()
 
         # user = json.loads(j_raw)["props"]["pageProps"]
-        user = json.loads(j_raw)
-        user["I18n"] = {}
-        if user["serverCode"] == 404:
-            raise TikTokNotFoundError(
-                "TikTok user with username {} does not exist".format(username)
-            )
-
-        return user
+        data = json.loads(j_raw)
+        data["I18n"] = {}
+        data["serverCode"] = 200
+        return data
 
     def get_video_by_tiktok(self, data, **kwargs) -> bytes:
         """Downloads video from TikTok using a TikTok object.
