@@ -1338,8 +1338,9 @@ class TikTokApi:
                 logging.error("Tiktok response: \n " + t)
             raise TikTokCaptchaError()
 
-        user = json.loads(j_raw)["props"]["pageProps"]
-
+        # user = json.loads(j_raw)["props"]["pageProps"]
+        user = json.loads(j_raw)
+        user["I18n"] = {}
         if user["serverCode"] == 404:
             raise TikTokNotFoundError(
                 "TikTok user with username {} does not exist".format(username)
