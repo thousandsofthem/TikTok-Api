@@ -1545,8 +1545,8 @@ class TikTokApi:
         return urlencode(query)
 
     def __extract_tag_contents(self, html):
-        data_start = '<script id="sigi-persisted-data">window[\'SIGI_STATE\']='
-        data_end = ';window'
+        data_start = 'id="SIGI_STATE" type="application/json">'
+        data_end = '</script>'
         try:
             j_raw = html.split(data_start)[1].split(data_end)[0]
             # print('SIGI_STATE not in data')
